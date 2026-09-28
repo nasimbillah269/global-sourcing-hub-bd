@@ -379,93 +379,247 @@ body {
         right: 8px;
     }
 }
+.gsh-nav-overlay {
+    display: none;
+}
+.gsh-nav-brand {
+    display: none !important;
+}
+@media (max-width: 575.98px) {
+    .gsh-logo {
+        gap: 10px;
+    }
+    .gsh-logo-mark {
+        width: 38px;
+        height: 38px;
+        font-size: 1.3rem;
+    }
+    .gsh-logo-text strong {
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    .gsh-logo-text small {
+        font-size: 0.5rem;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+}
 @media (max-width: 991.98px) {
     .gsh-nav-toggle {
         display: flex;
         position: relative;
-        z-index: 2;
+        z-index: 3;
     }
-    .gsh-logo {
-        position: relative;
-        z-index: 2;
-    }
-    .gsh-nav {
+
+    /* Dimmed backdrop behind the drawer (tap to close) */
+    .gsh-nav-overlay {
+        display: block;
         position: fixed;
         inset: 0;
         z-index: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 100px 32px 40px;
-        background: var(--gsh-navy-deep);
+        background: rgba(10, 9, 30, 0.6);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .gsh-header.nav-open .gsh-nav-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Drawer slides in from the right */
+    .gsh-nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        width: min(340px, 86vw);
+        display: flex;
+        flex-direction: column;
+        padding: 96px 28px 36px;
+        background: var(--gsh-navy-deep);
+        box-shadow: -20px 0 60px rgba(0, 0, 0, 0.45);
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform 0.55s var(--gsh-ease), visibility 0.55s;
         overflow-y: auto;
     }
+    .gsh-nav::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--gsh-red), var(--gsh-crimson));
+    }
     .gsh-header.nav-open .gsh-nav {
-        opacity: 1;
+        transform: translateX(0);
         visibility: visible;
     }
     .gsh-nav > ul {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 0;
     }
     .gsh-nav > ul > li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         opacity: 0;
-        transform: translateY(16px);
-        transition: all 0.5s var(--gsh-ease);
+        transform: translateX(30px);
+        transition: opacity 0.45s ease, transform 0.55s var(--gsh-ease);
     }
     .gsh-header.nav-open .gsh-nav > ul > li {
         opacity: 1;
         transform: none;
     }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(2) { transition-delay: 0.04s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(3) { transition-delay: 0.08s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(4) { transition-delay: 0.12s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(5) { transition-delay: 0.16s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(6) { transition-delay: 0.2s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(7) { transition-delay: 0.24s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(8) { transition-delay: 0.28s; }
-    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(9) { transition-delay: 0.32s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(1) { transition-delay: 0.12s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(2) { transition-delay: 0.16s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(3) { transition-delay: 0.2s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(4) { transition-delay: 0.24s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(5) { transition-delay: 0.28s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(6) { transition-delay: 0.32s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(7) { transition-delay: 0.36s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(8) { transition-delay: 0.4s; }
+    .gsh-header.nav-open .gsh-nav > ul > li:nth-child(9) { transition-delay: 0.44s; }
     .gsh-nav a {
-        padding: 8px 0;
-        font-family: var(--gsh-font-display);
-        font-size: 1.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 4px;
+        font-size: 0.95rem;
         font-weight: 500;
-        letter-spacing: 0;
+        letter-spacing: 0.04em;
         text-transform: none;
-    }
-    .gsh-nav a.active {
-        color: #ff8a9a;
+        transition: color 0.25s ease, padding 0.3s var(--gsh-ease);
     }
     .gsh-nav > ul > li > a::after {
-        display: none;
+        content: "\f061";
+        position: static;
+        height: auto;
+        background: none;
+        transform: none;
+        font-family: "Font Awesome 6 Free";
+        font-size: 0.75rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.3);
+        transition: color 0.25s ease, transform 0.3s var(--gsh-ease);
+    }
+    .gsh-nav a:hover {
+        padding-left: 10px;
+    }
+    .gsh-nav a.active,
+    .gsh-nav > ul > li > a.active::after,
+    .gsh-nav > ul > li > a:hover::after {
+        color: #ff8a9a;
+    }
+    .gsh-nav > ul > li > a:hover::after {
+        transform: translateX(4px);
     }
     .gsh-nav-cta {
-        align-self: flex-start;
-        margin-top: 28px;
+        align-self: stretch;
+        margin-top: 30px;
+        opacity: 0;
+        transform: translateX(30px);
+        transition: opacity 0.45s ease 0.48s, transform 0.55s var(--gsh-ease) 0.48s;
+    }
+    .gsh-header.nav-open .gsh-nav-cta {
+        opacity: 1;
+        transform: none;
+    }
+    /* Drawer brand, lined up with the close button */
+    .gsh-nav a.gsh-nav-brand,
+    .gsh-nav a.gsh-nav-brand:hover {
+        display: flex !important;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        min-height: 46px;
+        margin: -74px 56px 22px 0;
+        padding: 0;
+        color: #fff;
+        opacity: 0;
+        transform: translateX(30px);
+        transition: opacity 0.45s ease 0.08s, transform 0.55s var(--gsh-ease) 0.08s;
+    }
+    .gsh-header.nav-open .gsh-nav a.gsh-nav-brand {
+        opacity: 1;
+        transform: none;
+    }
+    /* Header bar is shorter once scrolled: keep the logo level with the close button */
+    .gsh-header.is-scrolled .gsh-nav a.gsh-nav-brand,
+    .gsh-header.gsh-header-solid .gsh-nav a.gsh-nav-brand {
+        margin-top: -84px;
+    }
+    .gsh-nav-brand + ul {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 399.98px) {
+        .gsh-nav a.gsh-nav-brand,
+        .gsh-nav a.gsh-nav-brand:hover {
+            gap: 8px;
+            margin-right: 50px;
+        }
+        .gsh-nav-brand .gsh-logo-mark {
+            flex-basis: 34px;
+            width: 34px;
+            height: 34px;
+            font-size: 1.15rem;
+        }
+        .gsh-nav-brand .gsh-logo-text strong {
+            font-size: 0.64rem;
+        }
+        .gsh-nav-brand .gsh-logo-text small {
+            font-size: 0.42rem;
+        }
+    }
+    .gsh-nav-brand .gsh-logo-mark {
+        flex: 0 0 38px;
+        width: 38px;
+        height: 38px;
+        font-size: 1.3rem;
+    }
+    .gsh-nav-brand .gsh-logo-text strong {
+        font-size: 0.74rem;
+        white-space: nowrap;
+    }
+    .gsh-nav-brand .gsh-logo-text small {
+        font-size: 0.48rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .gsh-nav a.gsh-nav-cta,
+    .gsh-nav a.gsh-nav-cta:hover {
+        justify-content: center;
+        padding: 16px 30px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #fff;
     }
     .gsh-subnav {
         position: static;
         opacity: 1;
         visibility: visible;
         transform: none;
-        padding: 0 0 0 16px;
+        padding: 0 0 8px 14px;
         background: transparent;
         box-shadow: none;
     }
     .gsh-subnav a {
-        font-size: 1.1rem;
-        color: rgba(255, 255, 255, 0.7);
+        padding: 8px 4px;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.65);
     }
     .gsh-subnav a:hover {
         background: transparent;
     }
+    /* backdrop-filter would trap the fixed drawer inside the header bar */
     .gsh-header.nav-open {
-        background: transparent;
-        box-shadow: none;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
     }
@@ -556,6 +710,30 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
+}
+/* Phones: keep both hero buttons on one row */
+@media (max-width: 575.98px) {
+    .gsh-hero-actions {
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+    .gsh-hero-actions .gsh-btn {
+        flex: 0 1 auto;
+        min-width: 0;
+        padding: 14px 18px;
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+}
+@media (max-width: 359.98px) {
+    .gsh-hero-actions .gsh-btn {
+        padding: 13px 14px;
+        font-size: 0.62rem;
+    }
+    .gsh-hero-actions .gsh-btn i {
+        display: none;
+    }
 }
 .gsh-hero-caption > * {
     opacity: 0;

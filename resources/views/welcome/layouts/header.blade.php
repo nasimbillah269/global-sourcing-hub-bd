@@ -26,7 +26,16 @@
             </span>
         </a>
 
+        <div class="gsh-nav-overlay" id="gshNavOverlay"></div>
+
         <nav class="gsh-nav" id="gshNav" aria-label="Main">
+            <a class="gsh-logo gsh-nav-brand" href="{{route('index')}}" aria-label="{{brandName()}}">
+                <span class="gsh-logo-mark">G</span>
+                <span class="gsh-logo-text">
+                    <strong>Global Sourcing Hub BD</strong>
+                    <small>Connecting Lifestyle Through Design</small>
+                </span>
+            </a>
             <ul>
                 @if($primaryMenu && $primaryMenu->subMenus->count() > 0)
                     @foreach($primaryMenu->subMenus as $navItem)
@@ -87,6 +96,10 @@
         });
         nav.querySelectorAll('a').forEach(function (link) {
             link.addEventListener('click', closeNav);
+        });
+        document.getElementById('gshNavOverlay').addEventListener('click', closeNav);
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 992) closeNav();
         });
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') closeNav();
