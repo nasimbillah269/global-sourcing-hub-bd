@@ -121,14 +121,31 @@ class WelcomeController extends Controller
       ->limit(3)
       ->get(['id','name','slug','addedby_id','created_at']);
 
-    	return view(welcomeTheme().'index',compact('latestServices','latestPosts'));
+      $productCategories =Attribute::where('type',0)
+      ->where('status','active')
+      ->where('fetured',true)
+      ->whereNull('parent_id')
+      ->with(['imageFile','subCtgs'=>function($q){
+        $q->where('status','active')->orderBy('view')->orderBy('id');
+      }])
+      ->orderBy('view')->orderBy('id')
+      ->get(['id','name','slug','view']);
+
+    	return view(welcomeTheme().'index',compact('latestServices','latestPosts','productCategories'));
     }
 
     public function serviceCategory($slug){
-      $category =Attribute::latest()->where('type',0)->where('slug',$slug)->first();
+      $category =Attribute::latest()->where('type',0)->where('status','active')->where('slug',$slug)->first();
       if(!$category){
         return abort('404');
       }
+
+      $subCategories =$category->subCtgs()->where('status','active')
+      ->with('imageFile')
+      ->orderBy('view')->orderBy('id')
+      ->get(['id','name','slug','parent_id','short_description']);
+
+      $productImages =$category->galleryImages()->get(['id','file_url','alt_text']);
 
       $services = Post::whereHas('ctgServices',function($q) use($category){
         $q->where('reff_id',$category->id);
@@ -137,10 +154,12 @@ class WelcomeController extends Controller
         $qq->where('status','active');
       })
       ->select(['id','name','slug','addedby_id','created_at','short_description'])
+      ->with('imageFile')
       ->whereDate('created_at','<=',date('Y-m-d'))
-      ->paginate(12);
+      ->orderBy('id')
+      ->paginate(25);
 
-      return view(welcomeTheme().'services.categoryServices',compact('category','services'));
+      return view(welcomeTheme().'services.categoryServices',compact('category','subCategories','productImages','services'));
     }
 
     public function serviceView($slug){
@@ -437,7 +456,7 @@ class WelcomeController extends Controller
         ->where(function($q) use($r){
           $q->where('search_key','LIKE','%'.$r->search.'%');
         })
-        ->paginate(24);
+        ->paginate(25);
 
       }else{
         $posts = array();

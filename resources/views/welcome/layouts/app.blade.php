@@ -70,10 +70,6 @@
     <body>
         
         
-        <!-- WhatsApp float -->
-<a href="https://wa.me/8801XXXXXXXXX" target="_blank" class="whatsapp-float">
-  <i class="fa-brands fa-whatsapp"></i>
-</a>
 <!-- Back to top -->
 <button id="backToTop" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
 

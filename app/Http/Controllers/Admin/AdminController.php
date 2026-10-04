@@ -1137,6 +1137,7 @@ class AdminController extends Controller
                 'seo_desc' => 'nullable|max:200',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'gallery_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096',
             ]);
     
             if(!$check){
@@ -1175,6 +1176,24 @@ class AdminController extends Controller
             }
     
             ///////Banner Upload End////////////
+
+            ///////Product Images Upload Start////////////
+            $files=$r->file('gallery_image');
+            if($files){
+                foreach($files as $file){
+                    uploadFile($file,$category->id,3,3,Auth::id(),false);
+                }
+            }
+
+            if($r->delete_gallery){
+                foreach($category->galleryImages()->whereIn('id',$r->delete_gallery)->get() as $image){
+                    if(File::exists($image->file_url)){
+                        File::delete($image->file_url);
+                    }
+                    $image->delete();
+                }
+            }
+            ///////Product Images Upload End////////////
     
     
            $slug =Str::slug($r->name);
@@ -1188,7 +1207,7 @@ class AdminController extends Controller
             }
            }
           $category->status =$r->status?'active':'inactive';
-          $category->fetured =$r->fetured?1:0;
+          $category->fetured =$r->featured?1:0;
           $category->editedby_id =Auth::id();
           $category->save();
           

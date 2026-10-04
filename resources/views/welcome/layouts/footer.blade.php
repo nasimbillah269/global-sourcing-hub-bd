@@ -2,13 +2,6 @@
     $g = general();
     $home = request()->routeIs('index') ? '' : route('index');
     $privacyPage = pageTemplate('Privacy Policy');
-    // Always shown; the link comes from Settings (falls back to "#" until one is set)
-    $socials = [
-        ['facebook_link', 'fa-facebook-f', 'Facebook'],
-        ['instagram_link', 'fa-instagram', 'Instagram'],
-        ['linkedin_link', 'fa-linkedin-in', 'LinkedIn'],
-        ['youtube_link', 'fa-youtube', 'YouTube'],
-    ];
     $quickLinks = [['About Us', '#about'], ['Our Services', '#services'], ['Our Team', '#team'], ['Quality', '#quality'], ['Compliance', '#compliance'], ['Contact', '#contact']];
     $productLinks = ["Men's Apparel", "Ladies' Apparel", 'Kids &amp; Newborn', 'Knit', 'Woven (Denim &amp; Non-Denim)', 'Sweater'];
 @endphp
@@ -25,12 +18,6 @@
                     </span>
                 </a>
                 <p class="gsh-footer-about">Your trusted partner for sourcing premium knit, woven and sweater, connecting global buyers with reliable manufacturers and skilled artisans.</p>
-                <div class="gsh-footer-social">
-                    @foreach($socials as $social)
-                        @php $socialUrl = \Illuminate\Support\Str::startsWith($g->{$social[0]}, 'http') ? $g->{$social[0]} : null; @endphp
-                        <a href="{{$socialUrl ?: '#'}}" @if($socialUrl) target="_blank" rel="noopener" @endif aria-label="{{$social[2]}}"><i class="fa-brands {{$social[1]}}"></i></a>
-                    @endforeach
-                </div>
             </div>
             <div class="col-6 col-lg-2">
                 <h6 class="gsh-footer-title">Company</h6>

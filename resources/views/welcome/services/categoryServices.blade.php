@@ -1,5 +1,5 @@
 @extends(welcomeTheme().'layouts.app') @section('title')
-<title>{{websiteTitle($category->name)}}</title>
+<title>{{websiteTitle(($category->parent ? $category->parent->name.' - ' : '').$category->name)}}</title>
 @endsection @section('SEO')
 <meta name="title" property="og:title" content="{{websiteTitle($category->name)}}" />
         <meta name="description" property="og:description" content="{!!$category->seo_description?:general()->meta_description!!}" />
@@ -24,28 +24,58 @@
     >
     <div class="container">
         <div class="title">
-            <h1>{{$category->name}}</h1>
+            <h1>@if($category->parent){{$category->parent->name}} &ndash; @endif{{$category->name}}</h1>
             <ul>
                 <li><a href="{{route('index')}}">Home</a></li>
+                @if($category->parent)
+                <li><a href="{{route('serviceCategory',$category->parent->slug?:'no-title')}}">{{$category->parent->name}}</a></li>
+                @endif
                 <li>{{$category->name}}</li>
             </ul>
         </div>
     </div>
 </div>
 
-<div class="serviceCompany">
+@if($subCategories->count() > 0)
+<section class="gsh-section gsh-bg-cream">
     <div class="container">
-        <div class="row">
-            @foreach($services as $service)
-            <div class="col-md-4">
-                @include(welcomeTheme().'services.includes.serviceGrid')
-            </div>
+        @if($category->description)
+        <div class="gsh-section-head pageContent">{!!$category->description!!}</div>
+        @endif
+        <div class="gsh-subctg-grid">
+            @foreach($subCategories as $subCategory)
+            <a href="{{route('serviceCategory', $subCategory->slug ?: 'no-title')}}" class="gsh-product">
+                <img src="{{asset($subCategory->image())}}" alt="{{$subCategory->name}}" loading="lazy">
+                <div class="gsh-product-caption">
+                    <span>{{$category->name}}</span>
+                    <h3>{{$subCategory->name}}</h3>
+                </div>
+            </a>
             @endforeach
         </div>
-        <!-- pagination -->
-        {{$services->links('pagination')}}
     </div>
-</div>
+</section>
+@endif
+
+@if($productImages->count() > 0 || $services->count() > 0)
+<section class="gsh-section">
+    <div class="container">
+        <div class="gsh-gallery-grid">
+            @foreach($services as $service)
+            <figure class="gsh-gallery-item">
+                <img src="{{asset($service->image())}}" alt="{{$service->name}}" loading="lazy">
+            </figure>
+            @endforeach
+            @foreach($productImages as $productImage)
+            <figure class="gsh-gallery-item">
+                <img src="{{asset($productImage->file_url)}}" alt="{{$productImage->alt_text ?: $category->name}}" loading="lazy">
+            </figure>
+            @endforeach
+        </div>
+        <div class="mt-4">{{$services->links('pagination')}}</div>
+    </div>
+</section>
+@endif
 
 @endsection 
 

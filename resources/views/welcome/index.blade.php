@@ -32,7 +32,7 @@
     $careerPage = pageTemplate('Career');
     $stats = [
         ['fa-shirt', 3, '', 'Core product lines:<br>knit, woven &amp; sweater'],
-        ['fa-people-group', 3, '', 'Categories: men, ladies,<br>kids &amp; newborn'],
+        ['fa-people-group', 3, '', 'Categories: men, ladies,<br>kids &amp; baby'],
         ['fa-list-check', 7, '', 'End-to-end sourcing<br>services'],
         ['fa-certificate', 8, '+', 'International standards<br>supported'],
     ];
@@ -40,14 +40,6 @@
         ['Our Vision', 'A globally trusted sourcing partner', 'To be a globally trusted sourcing partner, connecting international buyers with reliable manufacturers through quality products, ethical practices, innovative solutions, and lasting partnerships.', 'production.jpg', 'fa-eye'],
         ['Our Mission', 'Reliable, transparent &amp; cost-effective', 'To provide reliable, transparent, and cost-effective sourcing solutions for apparel, handicrafts, and home textiles by connecting global buyers with trusted manufacturers, with a commitment to quality, ethical sourcing and timely delivery.', 'design.jpg', 'fa-bullseye'],
         ['Our Values', 'Integrity &middot; quality &middot; reliability', 'We are guided by integrity, quality, reliability, and ethical sourcing. We believe in building trusted partnerships, delivering consistent value, and providing exceptional service while promoting sustainable and responsible business practices.', 'worldwide.jpg', 'fa-handshake'],
-    ];
-    $products = [
-        ["Men's Apparel", 'Knit, woven &amp; sweater', 'product-1.jpg'],
-        ["Ladies' Apparel", 'Knit, woven &amp; sweater', 'product-4.jpg'],
-        ['Kids &amp; Newborn', 'Knit, woven &amp; sweater', 'product-7.jpg'],
-        ['Knit', 'Tees, polos &amp; fleece', 'product-5.jpg'],
-        ['Woven', 'Denim &amp; non-denim', 'product-2.jpg'],
-        ['Sweater', 'Flat knit collections', 'product-3.jpg'],
     ];
     $qualitySteps = [
         ['Supplier evaluation', 'Partner factories are carefully evaluated before any order is placed.'],
@@ -184,14 +176,18 @@
     </div>
     <div class="gsh-products" data-reveal>
         <div class="gsh-products-track" id="gshProducts">
-            @foreach($products as $product)
-            <figure class="gsh-product">
-                <img src="{{$img($product[2])}}" alt="{!!strip_tags($product[0])!!}" loading="lazy">
-                <figcaption>
-                    <span>{!!$product[1]!!}</span>
-                    <h3>{!!$product[0]!!}</h3>
-                </figcaption>
-            </figure>
+            @foreach($productCategories as $productCtg)
+            @php
+                $subNames = $productCtg->subCtgs->pluck('name');
+                $subLabel = $subNames->count() > 1 ? $subNames->slice(0, -1)->implode(', ').' & '.$subNames->last() : $subNames->implode('');
+            @endphp
+            <a href="{{route('serviceCategory', $productCtg->slug ?: 'no-title')}}" class="gsh-product">
+                <img src="{{asset($productCtg->image())}}" alt="{{$productCtg->name}}" loading="lazy">
+                <div class="gsh-product-caption">
+                    @if($subLabel)<span>{{$subLabel}}</span>@endif
+                    <h3>{{$productCtg->name}}</h3>
+                </div>
+            </a>
             @endforeach
         </div>
         <div class="container d-flex justify-content-between align-items-center mt-4">

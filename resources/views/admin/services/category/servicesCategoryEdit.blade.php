@@ -75,6 +75,34 @@
 
                     <div class="card">
                         <div class="card-header" style="border-bottom: 1px solid #e3ebf3;">
+                            <h4 class="card-title">Product Images <small>({{$category->galleryImages->count()}})</small></h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="gallery_image">Upload Images (multiple)</label>
+                                    <input type="file" name="gallery_image[]" multiple accept="image/*" class="form-control {{$errors->has('gallery_image.*')?'error':''}}" />
+                                    @if ($errors->has('gallery_image.*'))
+                                    <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('gallery_image.*') }}</p>
+                                    @endif
+                                </div>
+                                @if($category->galleryImages->count() > 0)
+                                <p class="mb-1" style="font-size: 12px;">Tick an image and save to delete it.</p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    @foreach($category->galleryImages as $galleryImage)
+                                    <label style="width: 90px; text-align: center; cursor: pointer; margin: 0;">
+                                        <img src="{{asset($galleryImage->file_url)}}" style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #e3ebf3; border-radius: 4px;" />
+                                        <input type="checkbox" name="delete_gallery[]" value="{{$galleryImage->id}}" /> <i class="fa fa-trash text-danger"></i>
+                                    </label>
+                                    @endforeach
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" style="border-bottom: 1px solid #e3ebf3;">
                             <h4 class="card-title">SEO Optimize</h4>
                         </div>
                         <div class="card-content">
@@ -158,7 +186,7 @@
                                     <div class="form-group col-6">
                                         <label for="Featured">Category Featured</label>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="Featured" name="featured" {{$category->featured?'checked':''}}/>
+                                            <input type="checkbox" class="custom-control-input" id="Featured" name="featured" {{$category->fetured?'checked':''}}/>
                                             <label class="custom-control-label" for="Featured">Active</label>
                                         </div>
                                     </div>

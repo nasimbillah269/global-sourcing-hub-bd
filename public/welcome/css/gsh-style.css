@@ -627,7 +627,7 @@ body {
 
 /* Pages other than home: keep content clear of the fixed header */
 .gsh-header-solid ~ .main-content {
-    padding-top: 80px;
+    padding-top: 66px;
 }
 
 /* ==========================================================================
@@ -892,7 +892,7 @@ body {
    ========================================================================== */
 .gsh-section {
     position: relative;
-    padding: 120px 0;
+    padding: 50px 0;
     scroll-margin-top: 70px;
 }
 .gsh-career {
@@ -1223,6 +1223,10 @@ body {
 .gsh-product:hover img {
     transform: scale(1.08);
 }
+.gsh-product {
+    display: block;
+}
+.gsh-product-caption,
 .gsh-product figcaption {
     position: absolute;
     inset: auto 0 0 0;
@@ -1230,6 +1234,7 @@ body {
     background: linear-gradient(0deg, rgba(17, 15, 48, 0.92) 0%, rgba(17, 15, 48, 0.4) 60%, transparent 100%);
     color: #fff;
 }
+.gsh-product-caption span,
 .gsh-product figcaption span {
     display: block;
     margin-bottom: 6px;
@@ -1240,12 +1245,51 @@ body {
     text-transform: uppercase;
     color: #ff8a9a;
 }
+.gsh-product-caption h3,
 .gsh-product figcaption h3 {
     margin: 0;
     font-family: var(--gsh-font-display);
     font-size: 1.6rem;
     font-weight: 600;
     color: #fff;
+}
+.gsh-subctg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+}
+.gsh-subctg-grid .gsh-product {
+    flex: none;
+}
+.gsh-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+.gsh-gallery-item {
+    display: block;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--gsh-radius-sm);
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--gsh-line);
+    box-shadow: var(--gsh-shadow-sm);
+}
+.gsh-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.8s var(--gsh-ease);
+}
+.gsh-gallery-item:hover img {
+    transform: scale(1.05);
+}
+@media (max-width: 575px) {
+    .gsh-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
 }
 .gsh-products-progress {
     position: relative;

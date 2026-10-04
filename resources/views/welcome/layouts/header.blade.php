@@ -11,7 +11,7 @@
         ['Quality', $home.'#quality'],
         ['Services', $home.'#services'],
         ['Compliance', $home.'#compliance'],
-        ['Career', $home.'#career'],
+        ['Profile', asset('files/company-profile.pdf'), true],
         ['Contact', $home.'#contact'],
     ];
 @endphp
@@ -52,7 +52,7 @@
                     @endforeach
                 @else
                     @foreach($defaultMenus as $i => $item)
-                    <li><a href="{{$item[1]}}" class="{{$isHome && $i == 0 ? 'active' : ''}}">{{$item[0]}}</a></li>
+                    <li><a href="{{$item[1]}}" class="{{$isHome && $i == 0 ? 'active' : ''}}" @if(!empty($item[2])) target="_blank" rel="noopener" @endif>{{$item[0]}}</a></li>
                     @endforeach
                 @endif
             </ul>
