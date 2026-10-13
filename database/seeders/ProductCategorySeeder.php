@@ -20,7 +20,7 @@ class ProductCategorySeeder extends Seeder
     public function run(): void
     {
         $subCategories = [
-            ['Knit', 'product-5.jpg'],
+            ['Knit', 'knit.jpg'],
             ['Woven', 'product-2.jpg'],
             ['Sweater', 'product-3.jpg'],
         ];
