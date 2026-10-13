@@ -29,9 +29,9 @@ class ProductCategorySeeder extends Seeder
             ["Men's Apparel", 'product-1.jpg', $subCategories],
             ["Ladies' Apparel", 'product-4.jpg', $subCategories],
             ['Kids & Baby', 'product-7.jpg', $subCategories],
-            ['Lingerie & Swimwear', 'product-4.jpg', []],
-            ['Outerwear & Workwear', 'product-6.jpg', []],
-            ['Sportswear & Activewear', 'product-5.jpg', []],
+            ['Lingerie & Swimwear', 'lingerie-swimwear.jpg', []],
+            ['Outerwear & Workwear', 'outerwear-workwear.jpg', []],
+            ['Sportswear & Activewear', 'sportswear-activewear.jpg', []],
         ];
 
         foreach ($mainCategories as $order => [$name, $image, $subs]) {
